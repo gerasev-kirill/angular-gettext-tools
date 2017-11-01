@@ -87,6 +87,25 @@ describe('Extracting from Javascript', function () {
         assert.deepEqual(catalog.items[1].references, ['test/fixtures/deeppath_catalog.js:4']);
     });
 
+    it('supports custom gettext finders', function () {
+        var files = [
+            'test/fixtures/custom_gettext_finders.js'
+        ];
+        var catalog = testExtract(files, {
+            customJSGettextFinders: [{
+                isGettext: function (node) {
+                    return node && node.type === 'ObjectProperty' && node.key.name === 'mySpecialProperty';
+                },
+                getJSData: function (node) {
+                    return {
+                        singular: node.value.value
+                    };
+                }
+            }]
+        });
+        assert.equal(catalog.items[0].msgid, 'Hello World');
+    });
+
     describe('invalid javascript', function () {
         beforeEach(function () {
             sinon.stub(console, 'warn', function () {

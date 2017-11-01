@@ -18,9 +18,9 @@ Check the website for usage instructions: [http://angular-gettext.rocketeer.be/]
 
 ## Options
 
-All options and defaults are displayed below: 
+All options and defaults are displayed below:
 
-```JSON
+```js
 {
     "startDelim": "{{",
     "endDelim": "}}",
@@ -34,11 +34,25 @@ All options and defaults are displayed below:
     "lineNumbers": true,
     "format": "javascript",
     "defaultLanguage": false,
-    "requirejs": false
+    "requirejs": false,
+    "customJSGettextFinders": [
+        {
+            "isGettext": function (node){
+                return true;
+            },
+            "getJSData": function (node){
+                return {
+                    singular: 'value',
+                    plural: 'other value',
+                    context: 'my context'
+                };
+            }
+        }
+    ]
 }
 ```
 
-## License 
+## License
 
     (The MIT License)
 
